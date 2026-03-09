@@ -6,19 +6,29 @@ https://movietomovie.com/play/1817/337339
 
 import type { Movie, Person } from "./types";
 
-if (false) {
-  // disabled while i get the main bfs logic done
-  const movie_cache_path = "./movie_cache.json";
-  const person_cache_path = "./person_cache.json";
-  const movie_file = Bun.file(movie_cache_path);
-  const person_file = Bun.file(person_cache_path);
+const useCache = process.env.USE_FILE_CACHE == "TRUE";
 
-  const MOVIE_CACHE = await movie_file.json();
-  const PERSON_CACHE = await person_file.json();
-} else {
-  const MOVIE_CACHE = {};
-  const PERSON_CACHE = {};
-}
+const MOVIE_CACHE: Record<number, Person[]> = await (async () => {
+  if (useCache) {
+    // disabled while i get the main bfs logic done
+    const movie_cache_path = "./movie_cache.json";
+    const movie_file = Bun.file(movie_cache_path);
+    return await movie_file.json();
+  } else {
+    return {};
+  }
+})();
+
+const PERSON_CACHE: Record<number, Movie[]> = await (async () => {
+  if (useCache) {
+    // disabled while i get the main bfs logic done
+    const person_cache_path = "./person_cache.json";
+    const person_file = Bun.file(person_cache_path);
+    return await person_file.json();
+  } else {
+    return {};
+  }
+})();
 
 const VISITED_MOVIES = new Set();
 const VISITED_PERSON = new Set();
