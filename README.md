@@ -1,2 +1,2 @@
-# swanike-percent
-movietomovie solver with swankie in the middle
+# m2m-solver
+movietomovie solver with optional extra paths
